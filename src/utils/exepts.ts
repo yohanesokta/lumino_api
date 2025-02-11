@@ -6,6 +6,7 @@ export function containsSpecialChars(str : String) {
 }
 
 export const userSecretDeselect = {
+    id : true,
     username : true,
     user_email : true,
     profile_picture_url : true,
