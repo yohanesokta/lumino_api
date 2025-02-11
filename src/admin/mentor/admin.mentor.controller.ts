@@ -32,12 +32,14 @@ adminMentorRouter.post("/", async (request,response)=>{
 })
 
 adminMentorRouter.delete("/",async(request,response)=>{
-    const mentor_id = request.body.mentor_id
+    const mentor_id = request.query.mentor_id
     if (!mentor_id) {
         response.status(400).json(sendJson({ message: "need mentor id!, cant be blank!" })); return;
     } else { 
         try {
-            await mentorDelete(mentor_id);
+            if (mentor_id) {
+                await mentorDelete(String(mentor_id));
+            }
             response.json(sendJson({message:"success"}))
         } catch (error) {
             if (error && typeof error == "object" && "code" in error) {

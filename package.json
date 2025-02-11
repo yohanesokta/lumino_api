@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "/src/app.ts",
   "scripts": {
-    "dev": "nodemon ./src/app.ts",
+    "dev": "nodemon ./src/index.ts",
     "proj": "bun  --watch ./src/index.ts",
     "swagbuild": "bun ./docs/generate.swagger.ts",
     "build": "prisma generate && tsc"
