@@ -40,6 +40,7 @@ export async function middleware(role : string,request: Request) {
                 return available
             } else { throw Error("email not found") }
         } catch (error) {
+            console.log(error)
             return false
         }
     }

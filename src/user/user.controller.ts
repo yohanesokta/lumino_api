@@ -1,6 +1,7 @@
 import express, { response } from "express"  
 import { getUserdatabyID } from "./user.repository";
 import { sendJson } from "../utils/exepts";
+import { request } from "http";
 export const Router = express.Router();
 
 Router.get('/', async (request,response)=>{

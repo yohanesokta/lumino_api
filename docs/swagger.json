@@ -3,7 +3,15 @@
     "info": {
         "title": "Api kurson serve",
         "description": "Dokumentasi API ini disusun dalam <b>Bahasa Indonesia</b> untuk mempermudah pengguna yang lebih familiar dengan bahasa ini. Kami berusaha memberikan penjelasan yang jelas dan informatif di setiap bagian dokumentasi. Namun, jika terdapat bagian dalam Bahasa Inggris yang kurang tepat atau tidak jelas, kami mohon maaf atas kekurangannya. Jangan ragu untuk memberikan masukan atau pertanyaan kepada kami agar kami dapat terus meningkatkan kualitas dokumentasi ini.",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "contact": {
+          "name": "support",
+        "email": "admin@yohancloud.biz.id"  
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        }
     },
     "servers": [
         {
@@ -31,10 +39,13 @@
             "description": "Callback function"
         },
         {
+            "name": "Default",
+            "description": "Default user previlage"
+        },
+        {
             "name": "Admin",
             "description": "Admin user previlage"
         },
-
         {
             "name": "Mentor",
             "description": "Mentor data, info, .etc"
@@ -225,20 +236,16 @@
                         "bearerAuth": []
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "mentor_id": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
+                "parameters": [
+                    {
+                        "in": "query",
+                        "required": true,
+                        "name": "mentor_id",
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "mentor account deleted successfully"
@@ -253,7 +260,7 @@
                     "Admin"
                 ],
                 "summary": "Updating mentor user profile",
-                "description": "Admin dapat mengubah user profile mentor. ini berlaku jika ada kesalahan data maupun lainya. data yang dapat diubah antara lain <b> [ username , user_email , user_picture ] </b>. <br> Perlu diingat bahwa request yang wajib ada adalah mentor_id dan salah satu di antara field yang akan di ubah",
+                "description": "Admin dapat mengubah user profile mentor. ini berlaku jika ada kesalahan data maupun lainya. data yang dapat diubah antara lain <b> [ username , user_email , profile_picture_url , bio ] </b>. <br> Perlu diingat bahwa request yang wajib ada adalah mentor_id dan salah satu di antara field yang akan di ubah",
                 "security": [
                     {
                         "bearerAuth": []
@@ -275,7 +282,10 @@
                                     "user_email": {
                                         "type": "string"
                                     },
-                                    "user_picture": {
+                                    "profile_picture_url": {
+                                        "type": "string"
+                                    },
+                                    "bio": {
                                         "type": "string"
                                     }
                                 }
@@ -382,7 +392,7 @@
             }
         },
         "/mentor/class": {
-            "post":{
+            "post": {
                 "tags": [
                     "Mentor"
                 ],
@@ -396,26 +406,26 @@
                 "requestBody": {
                     "content": {
                         "application/json": {
-                            "schema" : {
+                            "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "name" : {
+                                    "name": {
                                         "type": "string"
                                     },
-                                    "description" : {
+                                    "description": {
                                         "type": "string"
                                     },
-                                    "category_id" : {
+                                    "category_id": {
                                         "type": "number",
-                                        "example" : 1
+                                        "example": 1
                                     },
-                                    "price" : {
-                                        "type":  "number",
-                                        "example" : 100000
+                                    "price": {
+                                        "type": "number",
+                                        "example": 100000
                                     },
-                                    "duration" : {
-                                        "type":  "number",
-                                        "example" : 36000
+                                    "duration": {
+                                        "type": "number",
+                                        "example": 36000
                                     }
                                 }
                             }
@@ -429,10 +439,10 @@
                 "tags": [
                     "Mentor"
                 ],
-                "summary":"create new category product",
+                "summary": "create new category product",
                 "description": "Create New category",
                 "parameters": [],
-                "requestBody":{
+                "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
@@ -460,6 +470,80 @@
                 "responses": {
                     "200": {
                         "description": "OK"
+                    }
+                }
+            }
+        },
+        "/default/user": {
+            "get": {
+                "tags": [
+                    "Default"
+                ],
+                "summary": "get user data",
+                "parameters": [],
+                "description": "",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
+        "/default": {
+            "put": {
+                "tags": [
+                    "Default"
+                ],
+                "summary": "edit user data",
+                "description": "",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "user_email": {
+                                        "type": "string"
+                                    },
+                                    "bio": {
+                                        "type": "string"
+                                    },
+                                    "gender": {
+                                        "type": "string"
+                                    },
+                                    "organisasi": {
+                                        "type": "string"
+                                    },
+                                    "location": {
+                                        "type": "string"
+                                    },
+                                    "birthday": {
+                                        "type": "string"
+                                    },
+                                    "profile_picture_url": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
                     }
                 }
             }

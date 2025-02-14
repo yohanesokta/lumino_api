@@ -2,7 +2,8 @@
 import express from "express";
 import { sendJson , containsSpecialChars } from "../../utils/exepts";
 import { mentorDelete, mentorRegister } from "../admin.service";
-import { getManyMentors, getMentorbyId } from "../admin.repository";
+import { getManyMentors, getMentorbyId, mentorUpdate } from "../admin.repository";
+import { logger } from "../../utils/prisma";
 
 export const adminMentorRouter = express.Router();
 export const adminMentorGets = express.Router();
@@ -54,8 +55,25 @@ adminMentorRouter.delete("/",async(request,response)=>{
 })
 
 adminMentorRouter.put("/",async(request,response)=>{
-    response.json(sendJson({message:"route ini dalam pengembangan"}))
+    const userdata:any = {}
+    
+    const userid = request.body.user_id 
+    if (request.body.username) userdata.username = request.body.username
+    if (request.body.user_email) userdata.user_email = request.body.user_email
+    if (request.body.bio) userdata.bio = request.body.bio
+    if (request.body.profile_picture_url) userdata.profile_picture_url = request.body.profile_picture_url
 
+    if (Object.keys(userdata).length > 0 && userid) {
+        try {
+            await mentorUpdate(userid,userdata)
+            response.json(sendJson({message:"success" , data:userdata}))
+        } catch (error){
+            logger.error(error)
+            response.status(500).json(sendJson({message:"internal server error"}))
+        }
+    } else {
+        response.status(400).json(sendJson({message:"missing user data or user id"}))
+    }
 })
 
 adminMentorRouter.get("/",async(request,response)=>{
@@ -91,3 +109,5 @@ adminMentorGets.get("/",async(request,response)=>{
         }
     }
 })
+
+

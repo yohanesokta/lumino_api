@@ -11,3 +11,7 @@ export const getMentorbyId = async (mentor_id : string) => {
 export const getManyMentors = async (skip : number , take : number) => {
     return await prisma.users.findMany({where : {role : "mentor"},skip : skip , take : take , select : userSecretDeselect});
 }
+
+export const mentorUpdate = async (userid:string,userdata: any) => {
+    return await prisma.users.update({where : {id : userid} , data : userdata})
+}
