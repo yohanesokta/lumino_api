@@ -19,7 +19,7 @@ jsonSwager.servers[0].url = process.env.APP_URL!
 
 app.use(cors({
     origin: "*",
-    methods: ["GET", "POST", "PATCH", "DELETE"],
+    methods: ["GET", "POST", "PATCH", "DELETE","PUT"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }))
 
