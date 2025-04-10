@@ -37,3 +37,7 @@ export const getProductMentor = async (mentor_id : string) => {
         where : {instructor_id : mentor_id}
     })
 }
+
+export const getCategory = async () => {
+    return await prisma.category.findMany()
+}

@@ -1,6 +1,12 @@
-import express from "express";
+import express, { response } from "express";
 import { sendJson, containsSpecialChars } from "../../utils/exepts";
-import { createNewProduct  , createNewCategorie, getProductMentor} from "../mentor.repository";
+import {
+  createNewProduct,
+  createNewCategorie,
+  getProductMentor,
+  getCategory,
+} from "../mentor.repository";
+import { request } from "http";
 
 export const Router = express.Router();
 
@@ -9,10 +15,10 @@ Router.post("/", async (request, response) => {
   const instructor_id = request.user?.userdata.id!;
   const description = request.body.description;
   const category_id = request.body.category_id;
-  const requerement = request.body.requerement;
+  const requerement = request.body.requerement || "";
   const price = request.body.price;
   const duration = request.body.duration;
-
+  console.log("TESTING", category_id);
   if (
     !name ||
     !instructor_id ||
@@ -27,21 +33,18 @@ Router.post("/", async (request, response) => {
       .json(sendJson({ message: "all field cant be blank!" }));
     return;
   } else if (containsSpecialChars(name) || containsSpecialChars(description)) {
-    response
-      .status(400)
-      .json(
-        sendJson({
-          message: "cant contains special ( name & description) char",
-        })
-      );
+    response.status(400).json(
+      sendJson({
+        message: "cant contains special ( name & description) char",
+      }),
+    );
     return;
   } else if (!Number(price) || !Number(duration) || !Number(category_id)) {
     response
       .status(400)
       .json({ message: "price,duration,rating must be number" });
     return;
-  }
-     else {
+  } else {
     try {
       const data = await createNewProduct({
         name,
@@ -75,11 +78,11 @@ Router.get("/", async (request, response) => {
   } catch (error) {
     response.status(500).json(sendJson({ message: "internal server error" }));
   }
-})
+});
 
 Router.post("/category", async (request, response) => {
   const name = request.body.name;
-  const slug = request.body.name || name
+  const slug = request.body.name || name;
   const description = request.body.description;
   if (!name || !description) {
     response
@@ -87,13 +90,11 @@ Router.post("/category", async (request, response) => {
       .json(sendJson({ message: "all field cant be blank!" }));
     return;
   } else if (containsSpecialChars(name) || containsSpecialChars(description)) {
-    response
-      .status(400)
-      .json(
-        sendJson({
-          message: "cant contains special ( name & description) char",
-        })
-      );
+    response.status(400).json(
+      sendJson({
+        message: "cant contains special ( name & description) char",
+      }),
+    );
     return;
   } else {
     try {
@@ -103,17 +104,25 @@ Router.post("/category", async (request, response) => {
         description,
       });
       response.json(sendJson({ message: "success", data }));
-      
     } catch (err) {
       if (err && typeof err == "object" && "code" in err) {
         if (err.code == "P2002") {
           response
             .status(400)
-            .json(sendJson({ message: "product name already exist!" }));
+            .json(sendJson({ message: "product category already exist!" }));
           return;
         }
       }
       response.status(500).json(sendJson({ message: "internal server error" }));
     }
   }
-})
+});
+
+Router.get("/category", async (request, response) => {
+  try {
+    const data = await getCategory();
+    response.json(sendJson({ message: "success", data }));
+  } catch (error) {
+    response.status(500).json(sendJson({ message: "internal server error" }));
+  }
+});
