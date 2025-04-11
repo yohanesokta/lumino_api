@@ -71,9 +71,9 @@ Router.post("/", async (request, response) => {
 });
 
 Router.get("/", async (request, response) => {
-  const class_id = request.query.class_id;
+  const class_id = request.query.class_id ;
   try {
-    const data = await getProductMentor(request.user?.userdata.id!, class_id);
+    const data = await getProductMentor(request.user?.userdata.id!, String(class_id));
     response.json(sendJson({ message: "success", data }));
   } catch (error) {
     response.status(500).json(sendJson({ message: "internal server error" }));
