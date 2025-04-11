@@ -6,12 +6,15 @@ import { middleware_admin, middleware_allrole, middleware_mentor } from "./middl
 import { Router as UserController } from "./user/user.controller";
 import { Router as MentorController } from "./mentor/mentor.controller";
 import { Router as DefaultRouter } from "./default/default.controller";
+import { Router as MentorClassController } from "./mentor/class/mentor.class.controller";
 import cors from "cors"
 
 import jsonSwager from "../docs/swagger.json";
 import { swagger_static } from "../docs/swagger.static";
 import { homepage } from "./utils/hompage.status";
 import {logger} from "./utils/prisma";
+import { ClassCategoryRouter } from "./mentor/class/mentor.class.category.controller";
+import { ClassContent } from "./mentor/class/content/mentor.class.content.controller";
 
 const app = express();
 const app_port = process.env.APP_PORT || 3000
@@ -33,7 +36,10 @@ app.use("/auth", AuthController)
 app.use("/user", middleware_allrole, UserController)
 app.use("/admin", middleware_admin, adminRouter)
 app.use("/mentor", middleware_mentor, MentorController)
-app.use("/default",middleware_allrole,DefaultRouter)  
+app.use("/mentor/class", middleware_mentor,MentorClassController )
+app.use("/mentor/class/category", middleware_mentor, ClassCategoryRouter)
+app.use("/mentor/class/content", middleware_mentor, ClassContent)
+app.use("/default", middleware_allrole, DefaultRouter)
 app.listen(app_port, () => {
     logger.info("running on port " + app_port)
 })

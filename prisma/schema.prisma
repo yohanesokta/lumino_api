@@ -69,6 +69,7 @@ model Product {
   createAt      DateTime          @default(now())
   updateAt      DateTime          @updatedAt
   categories    ProductCategory[]
+  content       Json[]            @default([])
 }
 
 model ProductCategory {

@@ -31,10 +31,11 @@ export const createNewCategorie = async (category : Category) => {
     }})
 }
 
-export const getProductMentor = async (mentor_id : string) => { 
+export const getProductMentor = async (mentor_id : string, class_id: string | undefined) => { 
+    const where = class_id ? { instructor_id : mentor_id , id : Number(class_id) } : { instructor_id : mentor_id }
     return await prisma.product.findMany({
         include : { categories : { include : { category : true } } },
-        where : {instructor_id : mentor_id}
+        where : where
     })
 }
 
