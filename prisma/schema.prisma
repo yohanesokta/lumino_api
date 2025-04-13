@@ -84,7 +84,7 @@ model ProductCategory {
 
 model Sertificate {
   id         String   @id @default(uuid()) @db.Uuid
-  user_id    String
+  user_id    String 
   product_id String
   progres    String   @default("")
   createAt   DateTime @default(now())
@@ -101,6 +101,7 @@ model Order {
   id          String      @id @default(uuid()) @db.Uuid
   user_id     String
   product_id  String
+  stringOrder String      @default("")
   total_price Int
   status      OrderStatus
   createAt    DateTime    @default(now())

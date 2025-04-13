@@ -15,6 +15,7 @@ import { homepage } from "./utils/hompage.status";
 import {logger} from "./utils/prisma";
 import { ClassCategoryRouter } from "./mentor/class/mentor.class.category.controller";
 import { ClassContent } from "./mentor/class/content/mentor.class.content.controller";
+import { UserClassController } from "./user/class/user.class.controller";
 
 const app = express();
 const app_port = process.env.APP_PORT || 3000
@@ -34,6 +35,7 @@ app.get("/docs", (_, res) => { res.send(swagger_static("/docs/api/option.json"))
 
 app.use("/auth", AuthController)
 app.use("/user", middleware_allrole, UserController)
+app.use("/user/class", middleware_allrole, UserClassController)
 app.use("/admin", middleware_admin, adminRouter)
 app.use("/mentor", middleware_mentor, MentorController)
 app.use("/mentor/class", middleware_mentor,MentorClassController )

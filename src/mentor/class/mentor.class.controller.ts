@@ -17,7 +17,6 @@ Router.post("/", async (request, response) => {
   const requerement = request.body.requerement || "";
   const price = request.body.price;
   const duration = request.body.duration;
-  console.log("TESTING", category_id);
   if (
     !name ||
     !instructor_id ||

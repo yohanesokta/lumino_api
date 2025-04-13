@@ -32,7 +32,18 @@ export const createNewCategorie = async (category : Category) => {
 }
 
 export const getProductMentor = async (mentor_id : string, class_id: string | undefined) => { 
-    const where = class_id ? { instructor_id : mentor_id , id : Number(class_id) } : { instructor_id : mentor_id }
+    let where : any;
+    if (class_id == "undefined") {
+        where = {
+            instructor_id : mentor_id,
+        }
+    } else {
+        where = {
+            instructor_id : mentor_id,
+            id : class_id
+        }
+    }
+    
     return await prisma.product.findMany({
         include : { categories : { include : { category : true } } },
         where : where
