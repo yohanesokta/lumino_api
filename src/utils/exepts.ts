@@ -14,3 +14,25 @@ export const userSecretDeselect = {
     createAt : true,
     updateAt : true
 }
+
+export function validator(object :any) {
+    let includes : string[] = []
+    Object.keys(object).map((element)=>{
+        // Checking if variable undifinde
+        if (!object[element]){
+            includes.push(`${element} is required`)
+        }
+        /*
+         Checking if variable correct or not with type
+         expect : [valie,type]
+        */
+        if (typeof(object[element]) == "object") {
+            if (typeof(object[element][0]) != object[element][1]) {
+                includes.push(`${element} type is incorrect`)
+            } else {
+                object[element] = object[element][0]
+            }
+        }
+    })
+    return includes.length > 0 ? {status : false , data : includes} : {status : true , data : object};
+}
