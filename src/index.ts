@@ -42,6 +42,7 @@ app.use("/mentor/class", middleware_mentor,MentorClassController )
 app.use("/mentor/class/category", middleware_mentor, ClassCategoryRouter)
 app.use("/mentor/class/content", middleware_mentor, ClassContent)
 app.use("/default", middleware_allrole, DefaultRouter)
+
 app.listen(app_port, () => {
     logger.info("running on port " + app_port)
 })

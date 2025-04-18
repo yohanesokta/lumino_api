@@ -1,12 +1,15 @@
 {
     "openapi": "3.0.0",
+    "x-stoplight": {
+        "id": "vxmo1kvvf5nhy"
+    },
     "info": {
         "title": "Api kurson serve",
         "description": "Dokumentasi API ini disusun dalam <b>Bahasa Indonesia</b> untuk mempermudah pengguna yang lebih familiar dengan bahasa ini. Kami berusaha memberikan penjelasan yang jelas dan informatif di setiap bagian dokumentasi. Namun, jika terdapat bagian dalam Bahasa Inggris yang kurang tepat atau tidak jelas, kami mohon maaf atas kekurangannya. Jangan ragu untuk memberikan masukan atau pertanyaan kepada kami agar kami dapat terus meningkatkan kualitas dokumentasi ini.",
         "version": "1.0.0",
         "contact": {
-          "name": "support",
-        "email": "admin@yohancloud.biz.id"  
+            "name": "support",
+            "email": "admin@yohancloud.biz.id"
         },
         "license": {
             "name": "Apache 2.0",
@@ -79,6 +82,9 @@
                     "400": {
                         "description": "kurangnya atribut redirect pada query url "
                     }
+                },
+                "x-stoplight": {
+                    "id": "0xlcv1d4ixaws"
                 }
             }
         },
@@ -116,6 +122,9 @@
                     "200": {
                         "description": "success"
                     }
+                },
+                "x-stoplight": {
+                    "id": "elh3jlb724tiq"
                 }
             }
         },
@@ -150,6 +159,9 @@
                     "200": {
                         "description": "success"
                     }
+                },
+                "x-stoplight": {
+                    "id": "swv3wcudloviz"
                 }
             }
         },
@@ -162,6 +174,9 @@
                 "description": "",
                 "schema": {
                     "type": "interger"
+                },
+                "x-stoplight": {
+                    "id": "4fp91tz0573wc"
                 }
             }
         },
@@ -184,6 +199,9 @@
                     "401": {
                         "description": "unauthorize"
                     }
+                },
+                "x-stoplight": {
+                    "id": "ntw7n7h9hzpbt"
                 }
             }
         },
@@ -223,6 +241,9 @@
                     "200": {
                         "description": "success"
                     }
+                },
+                "x-stoplight": {
+                    "id": "33ivrwzrcgst2"
                 }
             },
             "delete": {
@@ -253,6 +274,9 @@
                     "400": {
                         "description": "bad request, missing or invalid mentor_id"
                     }
+                },
+                "x-stoplight": {
+                    "id": "8j40q0yyqrjgf"
                 }
             },
             "put": {
@@ -300,6 +324,9 @@
                     "400": {
                         "description": "bad request, missing required fields"
                     }
+                },
+                "x-stoplight": {
+                    "id": "fnfnt9tb9mpzq"
                 }
             },
             "get": {
@@ -328,6 +355,9 @@
                     "200": {
                         "description": "Mentor details retrieved successfully"
                     }
+                },
+                "x-stoplight": {
+                    "id": "l2kbjjwcn3h73"
                 }
             }
         },
@@ -366,6 +396,9 @@
                     "200": {
                         "description": "Mentor details retrieved successfully"
                     }
+                },
+                "x-stoplight": {
+                    "id": "j8ud3rjhhlquw"
                 }
             }
         },
@@ -388,6 +421,9 @@
                     "401": {
                         "description": "unauthorize"
                     }
+                },
+                "x-stoplight": {
+                    "id": "b2eprvmnbpe0t"
                 }
             }
         },
@@ -431,7 +467,29 @@
                             }
                         }
                     }
+                },
+                "x-stoplight": {
+                    "id": "h6v2qx8483ag2"
                 }
+            },
+            "get": {
+                "summary": "Getting Data Class",
+                "tags": ["Mentor"],
+                "responses": {},
+                "operationId": "get-mentor-class",
+                "x-stoplight": {
+                    "id": "2sdl8ygggomw5"
+                },
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "class_id",
+                        "description": "Using class id for search spesific class"
+                    }
+                ]
             }
         },
         "/mentor/class/category": {
@@ -471,6 +529,18 @@
                     "200": {
                         "description": "OK"
                     }
+                },
+                "x-stoplight": {
+                    "id": "q3pjh7zsd7n7n"
+                }
+            },
+            "get": {
+                "summary": "Getting All Class Category",
+                "tags": ["Mentor"],
+                "responses": {},
+                "operationId": "get-mentor-class-category-all",
+                "x-stoplight": {
+                    "id": "x564ssdbwk3uy"
                 }
             }
         },
@@ -491,6 +561,9 @@
                     "200": {
                         "description": "success"
                     }
+                },
+                "x-stoplight": {
+                    "id": "gxty7xomoikdz"
                 }
             }
         },
@@ -544,6 +617,63 @@
                 "responses": {
                     "200": {
                         "description": "success"
+                    }
+                },
+                "x-stoplight": {
+                    "id": "xt61d5v4o7j6l"
+                }
+            }
+        },
+        "/mentor/class/content": {
+            "post": {
+                "summary": "Creating Content in class",
+                "tags": [
+                    "Mentor"
+                ],
+                "responses": {},
+                "operationId": "post-mentor-class-content",
+                "x-stoplight": {
+                    "id": "tahab6tqfdr2b"
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "class_id": {
+                                        "type": "string",
+                                        "x-stoplight": {
+                                            "id": "8r6td53j6uke0"
+                                        }
+                                    },
+                                    "content_type": {
+                                        "type": "string",
+                                        "x-stoplight": {
+                                            "id": "s74l19w9c75kp"
+                                        }
+                                    },
+                                    "content_title": {
+                                        "type": "string",
+                                        "x-stoplight": {
+                                            "id": "btjhljd74n8pe"
+                                        }
+                                    },
+                                    "content_dataa": {
+                                        "type": "string",
+                                        "x-stoplight": {
+                                            "id": "noi8nv9ziaqsh"
+                                        }
+                                    },
+                                    "instructor_id": {
+                                        "type": "string",
+                                        "x-stoplight": {
+                                            "id": "kmq5o4b40dyoz"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
