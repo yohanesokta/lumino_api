@@ -1,0 +1,3 @@
+POST /admin/ec/product
+POST /payment/transaction
+GET /payment/transaction

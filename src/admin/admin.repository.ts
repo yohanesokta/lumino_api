@@ -15,3 +15,14 @@ export const getManyMentors = async (skip : number , take : number) => {
 export const mentorUpdate = async (userid:string,userdata: any) => {
     return await prisma.users.update({where : {id : userid} , data : userdata})
 }
+
+export const getAllUsers = async (skip : number , take : number , role : "user" | "admin" | "mentor" | null) => {
+    if (role) {
+        return await prisma.users.findMany({where : {role : role } , skip : skip , take : take , select : userSecretDeselect,orderBy :{role : "desc"}});
+    }
+    return await prisma.users.findMany({skip : skip , take : take , select : userSecretDeselect,orderBy :{role : "desc"}});
+}
+
+export const getUserById = async (userid : string) => {
+    return await prisma.users.findFirst({where : {id : userid} , select : userSecretDeselect});
+}
