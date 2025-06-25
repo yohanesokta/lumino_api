@@ -38,15 +38,14 @@ app.get("/docs", (_, res) => { res.send(swagger_static("/docs/api/option.json"))
 app.use("/auth", AuthController)
 app.use("/user", middleware_allrole, UserController)
 app.use("/user/class", middleware_allrole, UserClassController)
-// app.use("/admin", middleware_admin, adminRouter)
-// app.use("/admin/user",middleware_admin,adminUserRouter)
-app.use("/admin/ec/product", middleware_user,createProductRouter)
+app.use("/admin", middleware_admin, adminRouter)
+app.use("/admin/user",middleware_admin,adminUserRouter)
+app.use("/admin/ec/product", middleware_admin,createProductRouter)
 app.use("/mentor", middleware_mentor, MentorController)
 app.use("/mentor/class", middleware_mentor,MentorClassController )
 app.use("/mentor/class/category", middleware_mentor, ClassCategoryRouter)
 app.use("/mentor/class/content", middleware_mentor, ClassContent)
 app.use("/default", middleware_allrole, DefaultRouter)
-
 
 app.use('/payment',middleware_user,PaymentController)
 

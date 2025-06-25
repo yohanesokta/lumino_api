@@ -17,7 +17,7 @@ export const productCreate = async (
         data: {
             title,
             image,
-            price: parseFloat(price),
+            price,
             category,
             description,
             features: features || [],

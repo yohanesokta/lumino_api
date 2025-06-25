@@ -95,6 +95,7 @@ enum OrderStatus {
   success
   fail
   cancel
+  pending
 }
 
 model Order {
@@ -106,13 +107,14 @@ model Order {
   status      OrderStatus
   createAt    DateTime    @default(now())
   updateAt    DateTime    @updatedAt
+  product     ProductEC   @relation(fields: [product_id], references: [id])
 }
 
 model Review {
   id         String   @id @default(uuid()) @db.Uuid
   product_id String
   user_id    String
-  rating     Int
+  rating     Float
   comment    String
   createAt   DateTime @default(now())
   updateAt   DateTime @updatedAt
@@ -125,7 +127,7 @@ model ProductEC {
   id          String    @id @default(uuid())
   title       String
   image       String
-  price       Float
+  price       Int
   category    String
   description String
   features    String[] 
@@ -134,6 +136,7 @@ model ProductEC {
   updatedAt   DateTime  @updatedAt
   tools       ToolEC[] 
   reviews     ReviewEC[]
+  order       Order[]
 }
 
 model ToolEC {
