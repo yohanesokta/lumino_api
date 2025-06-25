@@ -79,7 +79,7 @@ model ProductCategory {
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId Int
 
-  @@id([productId, categoryId]) // Composite Primary Key
+  @@id([productId, categoryId]) 
 }
 
 model Sertificate {
@@ -117,3 +117,44 @@ model Review {
   createAt   DateTime @default(now())
   updateAt   DateTime @updatedAt
 }
+
+
+// NEWS PRODUCT
+
+model ProductEC {
+  id          String    @id @default(uuid())
+  title       String
+  image       String
+  price       Float
+  category    String
+  description String
+  features    String[] 
+  rating      Float
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  tools       ToolEC[] 
+  reviews     ReviewEC[]
+}
+
+model ToolEC {
+  id        String  @id @default(uuid())
+  name      String
+  icon      String
+  productId String?
+  product   ProductEC? @relation(fields: [productId], references: [id])
+
+  @@unique([name, productId])
+}
+
+model ReviewEC {
+  id        String   @id @default(uuid())
+  user      String
+  comment   String
+  rating    Int
+  date      DateTime
+  productId String
+  product   ProductEC  @relation(fields: [productId], references: [id])
+}
+
+
+
