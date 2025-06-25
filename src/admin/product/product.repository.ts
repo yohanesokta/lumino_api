@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 export const productCreate = async (
     title: string,
     image: string,
-    price: string,
+    price: number,
     category: string,
     description: string,
     rating: string,
