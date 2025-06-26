@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../../utils/prisma";
 
-const prisma = new PrismaClient();
 export const productCreate = async (
     title: string,
     image: string,
@@ -33,4 +32,5 @@ export const productCreate = async (
             tools: true,
         },
     });
+
 }

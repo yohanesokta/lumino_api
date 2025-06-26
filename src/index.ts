@@ -16,8 +16,8 @@ import {logger} from "./utils/prisma";
 import { ClassCategoryRouter } from "./mentor/class/mentor.class.category.controller";
 import { ClassContent } from "./mentor/class/content/mentor.class.content.controller";
 import { UserClassController } from "./user/class/user.class.controller";
-import { PaymentController } from "./user/payment/payment.controller";
 import {createProductRouter } from "./admin/product/product.controller";
+import { midtramsRouter } from "./default/midtrans/midtrans.controller";
 
 const app = express();
 const app_port = process.env.APP_PORT || 3000
@@ -35,6 +35,7 @@ app.get("/", homepage)
 app.get("/docs/api/option.json", (_, res) => { res.send(jsonSwager) })
 app.get("/docs", (_, res) => { res.send(swagger_static("/docs/api/option.json")) })
 
+
 app.use("/auth", AuthController)
 app.use("/user", middleware_allrole, UserController)
 app.use("/user/class", middleware_allrole, UserClassController)
@@ -46,12 +47,14 @@ app.use("/mentor/class", middleware_mentor,MentorClassController )
 app.use("/mentor/class/category", middleware_mentor, ClassCategoryRouter)
 app.use("/mentor/class/content", middleware_mentor, ClassContent)
 app.use("/default", middleware_allrole, DefaultRouter)
+app.use('/payment',middleware_user,midtramsRouter)
 
-app.use('/payment',middleware_user,PaymentController)
+
+app.use('/payment',midtramsRouter)
 
 
 app.listen(app_port, () => {
-    logger.info("running on port " + app_port)
+    logger.info(`Server is running on port : ${app_port}`)
 })
 
 export default app
