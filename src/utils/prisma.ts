@@ -37,9 +37,21 @@ prisma.$on("warn", (element) => {
     return logger.warn(element);
 });
 
+
+if (process.env.NODE_ENV === "production") {
+    prisma.$connect().catch((error) => {
+        logger.error("Failed to connect to the database", error);
+    });
+
+}
+
 export const logger = winston.createLogger({
     level: "info",
-    format: winston.format.json(),
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.errors({ stack: true }),
+        winston.format.simple()
+    ),
     transports: [
         new winston.transports.Console(),
         new winston.transports.File({ filename: "logs/error.log", level: "error" }),
