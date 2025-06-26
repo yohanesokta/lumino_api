@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import  winston  from "winston";
+import  winston, { transport }  from "winston";
 
 export const prisma = new PrismaClient({
     log : [
@@ -38,11 +38,14 @@ prisma.$on("warn", (element) => {
 });
 
 
-if (process.env.NODE_ENV === "production") {
-    prisma.$connect().catch((error) => {
-        logger.error("Failed to connect to the database", error);
-    });
-
+let transports;
+if (process.env.NODE_ENV === "development") {
+    transports = [ new winston.transports.Console()];
+} else if (process.env.NODE_ENV === "production") {
+    transports = [
+        new winston.transports.File({ filename: "logs/error.log", level: "error" }),
+        new winston.transports.File({ filename: "logs/combined.log" })
+    ];
 }
 
 export const logger = winston.createLogger({
@@ -52,9 +55,5 @@ export const logger = winston.createLogger({
         winston.format.errors({ stack: true }),
         winston.format.simple()
     ),
-    transports: [
-        new winston.transports.Console(),
-        new winston.transports.File({ filename: "logs/error.log", level: "error" }),
-        new winston.transports.File({ filename: "logs/combined.log" })
-    ]
+    transports
 })
