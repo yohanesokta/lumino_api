@@ -50,6 +50,9 @@ app.use("/default", middleware_allrole, DefaultRouter)
 app.use('/payment',middleware_user,midtramsRouter)
 
 
+app.use('/payment',middleware_user,PaymentController)
+
+
 app.listen(app_port, () => {
     logger.info(`Server is running on port : ${app_port}`)
 })

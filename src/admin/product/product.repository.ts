@@ -1,4 +1,5 @@
 import { prisma } from "../../utils/prisma";
+
 export const productCreate = async (
     title: string,
     image: string,
@@ -31,4 +32,5 @@ export const productCreate = async (
             tools: true,
         },
     });
+
 }
