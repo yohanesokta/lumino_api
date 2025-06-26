@@ -50,7 +50,7 @@ app.use("/default", middleware_allrole, DefaultRouter)
 app.use('/payment',middleware_user,midtramsRouter)
 
 
-app.use('/payment',middleware_user,PaymentController)
+app.use('/payment',midtramsRouter)
 
 
 app.listen(app_port, () => {
