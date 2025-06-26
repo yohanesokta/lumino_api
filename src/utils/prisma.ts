@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import  winston, { transport }  from "winston";
+import  winston  from "winston";
 
 export const prisma = new PrismaClient({
     log : [
@@ -37,17 +37,6 @@ prisma.$on("warn", (element) => {
     return logger.warn(element);
 });
 
-
-let transports;
-if (process.env.NODE_ENV === "development") {
-    transports = [ new winston.transports.Console()];
-} else if (process.env.NODE_ENV === "production") {
-    transports = [
-        new winston.transports.File({ filename: "logs/error.log", level: "error" }),
-        new winston.transports.File({ filename: "logs/combined.log" })
-    ];
-}
-
 export const logger = winston.createLogger({
     level: "info",
     format: winston.format.combine(
@@ -55,5 +44,5 @@ export const logger = winston.createLogger({
         winston.format.errors({ stack: true }),
         winston.format.simple()
     ),
-    transports
+    transports : [ new winston.transports.Console()]
 })
