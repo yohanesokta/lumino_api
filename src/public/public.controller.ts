@@ -4,7 +4,7 @@ export const Router = express.Router();
 
 Router.get('/product', async (req, response) => {
   try {
-    const products = await getAllProducts;
+    const products = await getAllProducts();
     response.status(200).json(products);
   } catch (error: any) {
     console.error('Error fetching products:', error);
