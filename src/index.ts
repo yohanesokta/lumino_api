@@ -6,6 +6,7 @@ import { middleware_admin, middleware_allrole, middleware_mentor, middleware_use
 import { Router as UserController } from "./user/user.controller";
 import { Router as MentorController } from "./mentor/mentor.controller";
 import { Router as DefaultRouter } from "./default/default.controller";
+import { Router as PublicController } from "./public/public.controller";
 import { Router as MentorClassController } from "./mentor/class/mentor.class.controller";
 import cors from "cors"
 
@@ -39,6 +40,7 @@ app.get("/docs", (_, res) => { res.send(swagger_static("/docs/api/option.json"))
 app.use('/payment',midtramsRouter)
 
 app.use("/auth", AuthController)
+app.use('/public',PublicController)
 app.use("/user", middleware_allrole, UserController)
 app.use("/user/class", middleware_allrole, UserClassController)
 app.use("/admin", middleware_admin, adminRouter)
