@@ -37,6 +37,24 @@ prisma.$on("warn", (element) => {
     return logger.warn(element);
 });
 
+let transports;
+if (process.env.NODE_ENV === "development") {
+    transports = [
+        new winston.transports.Console({
+            format: winston.format.combine(
+                winston.format.colorize(),
+                winston.format.simple()
+            )
+        }),
+        new winston.transports.File({
+            filename: "logs/development.log",
+        })
+    ];
+} else {
+    transports = [new winston.transports.Console()]
+}
+
+
 export const logger = winston.createLogger({
     level: "info",
     format: winston.format.combine(
@@ -44,5 +62,5 @@ export const logger = winston.createLogger({
         winston.format.errors({ stack: true }),
         winston.format.simple()
     ),
-    transports : [ new winston.transports.Console()]
+    transports: transports
 })

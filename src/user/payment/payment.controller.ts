@@ -14,7 +14,7 @@ PaymentController.post('/transaction',async (request,response) => {
     console.log("Target Product ID:", targetProduct);
     if (!targetProduct) {
         response.status(400).json({
-            status: "Bad Request",
+            status: "Bad Request",  
             message: "Product ID is required"
         });
         return
