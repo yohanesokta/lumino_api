@@ -1,6 +1,6 @@
 
 import express from 'express';
-import { productCreate } from './product.repository';
+import { getAllProducts, productCreate } from './product.repository';
 
 export const createProductRouter = express.Router();
 
@@ -34,4 +34,14 @@ createProductRouter.post('/', async (req, response) => {
     response.status(500).json({ message: 'Internal server error', error: error.message });
   }
 
+});
+
+createProductRouter.get('/', async (req, response) => {
+  try {
+    const products = await getAllProducts();
+    response.status(200).json(products);
+  } catch (error: any) {
+    console.error('Error fetching products:', error);
+    response.status(500).json({ message: 'Internal server error', error: error.message });
+  }
 });

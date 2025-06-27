@@ -34,3 +34,12 @@ export const productCreate = async (
     });
 
 }
+
+
+export async function getAllProducts() {
+    return prisma.productEC.findMany({
+        include: {
+            tools: true,
+        },
+    });
+}
