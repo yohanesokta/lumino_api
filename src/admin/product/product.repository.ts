@@ -43,3 +43,12 @@ export async function getAllProducts() {
         },
     });
 }
+
+export async function getProductById(id: string) {
+    return prisma.productEC.findUnique({
+        where: { id },
+        include: {
+            tools: true,
+        },
+    });
+}
