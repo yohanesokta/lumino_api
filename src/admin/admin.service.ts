@@ -1,6 +1,6 @@
 import { userCreate } from "../auth/auth.repository";
 import { registerRequest } from "../auth/auth.service";
-import bycript from "bcrypt"
+import bycript from "bcryptjs"
 import { mentorUserDelete } from "./admin.repository";
 
 export const mentorRegister = async (data: registerRequest) => {

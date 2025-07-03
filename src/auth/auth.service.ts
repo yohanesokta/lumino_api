@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs"
 import { getUserDataByEmail, updateUserToken, userCreate, userCreatebyGoogle } from "./auth.repository";
 import jwt from "jsonwebtoken"
 import { google } from "googleapis";

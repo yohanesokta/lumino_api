@@ -79,12 +79,12 @@ model ProductCategory {
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId Int
 
-  @@id([productId, categoryId]) 
+  @@id([productId, categoryId])
 }
 
 model Sertificate {
   id         String   @id @default(uuid()) @db.Uuid
-  user_id    String 
+  user_id    String
   product_id String
   progres    String   @default("")
   createAt   DateTime @default(now())
@@ -120,27 +120,26 @@ model Review {
   updateAt   DateTime @updatedAt
 }
 
-
 // NEWS PRODUCT
 
 model ProductEC {
-  id          String    @id @default(uuid())
+  id          String     @id @default(uuid())
   title       String
   image       String
   price       Int
   category    String
   description String
-  features    String[] 
+  features    String[]
   rating      Float
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  tools       ToolEC[] 
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  tools       ToolEC[]
   reviews     ReviewEC[]
   order       Order[]
 }
 
 model ToolEC {
-  id        String  @id @default(uuid())
+  id        String     @id @default(uuid())
   name      String
   icon      String
   productId String?
@@ -150,14 +149,27 @@ model ToolEC {
 }
 
 model ReviewEC {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   user      String
   comment   String
   rating    Int
   date      DateTime
   productId String
-  product   ProductEC  @relation(fields: [productId], references: [id])
+  product   ProductEC @relation(fields: [productId], references: [id])
 }
 
+enum InboxType {
+  order
+  product
+  user
+}
 
-
+model Inbox {
+  id   String    @id @default(uuid()) @db.Uuid
+  type InboxType
+  email String
+  title String
+  message String
+  timestamp DateTime @default(now())
+  read Boolean @default(false)
+}
