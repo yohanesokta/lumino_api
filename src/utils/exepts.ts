@@ -22,10 +22,6 @@ export function validator(object :any) {
         if (!object[element]){
             includes.push(`${element} is required`)
         }
-        /*
-         Checking if variable correct or not with type
-         expect : [valie,type]
-        */
         if (typeof(object[element]) == "object") {
             if (typeof(object[element][0]) != object[element][1]) {
                 includes.push(`${element} type is incorrect`)

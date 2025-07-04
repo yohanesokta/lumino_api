@@ -1,3 +1,19 @@
 POST /admin/ec/product
+{ title, image, price, category, description, features, rating, tools } = req.body;
+
+GET /admin/ec/product
+tidak minta apa apa
+
+GET /admin/ec/product:id
+minta slug id
+
 POST /payment/transaction
+request.body.product_id;
+
+
 GET /payment/transaction
+tidak minta apa apa
+
+GET /payment/transaction:id
+minta slug id
+

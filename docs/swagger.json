@@ -1,10 +1,11 @@
+
 {
     "openapi": "3.0.0",
     "x-stoplight": {
         "id": "vxmo1kvvf5nhy"
     },
     "info": {
-        "title": "Api kurson serve",
+        "title": "LUMINO",
         "description": "Dokumentasi API ini disusun dalam <b>Bahasa Indonesia</b> untuk mempermudah pengguna yang lebih familiar dengan bahasa ini. Kami berusaha memberikan penjelasan yang jelas dan informatif di setiap bagian dokumentasi. Namun, jika terdapat bagian dalam Bahasa Inggris yang kurang tepat atau tidak jelas, kami mohon maaf atas kekurangannya. Jangan ragu untuk memberikan masukan atau pertanyaan kepada kami agar kami dapat terus meningkatkan kualitas dokumentasi ini.",
         "version": "1.0.0",
         "contact": {
@@ -50,12 +51,12 @@
             "description": "Admin user previlage"
         },
         {
-            "name": "Mentor",
-            "description": "Mentor data, info, .etc"
-        },
-        {
             "name": "User",
             "description": "User data, info, .etc"
+        },
+        {
+            "name": "Payment",
+            "description": "Payment and transaction routes"
         }
     ],
     "paths": {
@@ -95,9 +96,6 @@
                 ],
                 "summary": "create new user",
                 "description": "",
-                "schema": {
-                    "type": "interger"
-                },
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -135,9 +133,6 @@
                 ],
                 "summary": "login user authentication",
                 "description": "",
-                "schema": {
-                    "type": "interger"
-                },
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -172,9 +167,6 @@
                 ],
                 "summary": "callback oauth2 google",
                 "description": "",
-                "schema": {
-                    "type": "interger"
-                },
                 "x-stoplight": {
                     "id": "4fp91tz0573wc"
                 }
@@ -205,13 +197,13 @@
                 }
             }
         },
-        "/admin/mentor": {
+        "/admin/ec/product": {
             "post": {
                 "tags": [
                     "Admin"
                 ],
-                "summary": "create mentor account",
-                "description": "cuman admin yang dapat membuat user untuk mentor, dan harus terverifikasi",
+                "summary": "Create a new e-commerce product",
+                "description": "Membuat produk e-commerce baru.",
                 "security": [
                     {
                         "bearerAuth": []
@@ -223,14 +215,35 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "username": {
+                                    "title": {
                                         "type": "string"
                                     },
-                                    "user_email": {
+                                    "image": {
                                         "type": "string"
                                     },
-                                    "user_password": {
+                                    "price": {
+                                        "type": "number"
+                                    },
+                                    "category": {
                                         "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "features": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "rating": {
+                                        "type": "number"
+                                    },
+                                    "tools": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
                                     }
                                 }
                             }
@@ -239,135 +252,41 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "success"
-                    }
-                },
-                "x-stoplight": {
-                    "id": "33ivrwzrcgst2"
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Admin"
-                ],
-                "summary": "deleting mentor account",
-                "description": "menghapus mentor user dari pihak admin , admin yang terverifikasi dapat menghapus mentor dan sesuai aturan. Untuk menghapus hanya perlu id mentor untuk melakukanya",
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "query",
-                        "required": true,
-                        "name": "mentor_id",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "mentor account deleted successfully"
+                        "description": "Product created successfully"
                     },
-                    "400": {
-                        "description": "bad request, missing or invalid mentor_id"
+                    "401": {
+                        "description": "Unauthorized"
                     }
-                },
-                "x-stoplight": {
-                    "id": "8j40q0yyqrjgf"
-                }
-            },
-            "put": {
-                "tags": [
-                    "Admin"
-                ],
-                "summary": "Updating mentor user profile",
-                "description": "Admin dapat mengubah user profile mentor. ini berlaku jika ada kesalahan data maupun lainya. data yang dapat diubah antara lain <b> [ username , user_email , profile_picture_url , bio ] </b>. <br> Perlu diingat bahwa request yang wajib ada adalah mentor_id dan salah satu di antara field yang akan di ubah",
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "mentor_id": {
-                                        "type": "string",
-                                        "example": "require!"
-                                    },
-                                    "username": {
-                                        "type": "string"
-                                    },
-                                    "user_email": {
-                                        "type": "string"
-                                    },
-                                    "profile_picture_url": {
-                                        "type": "string"
-                                    },
-                                    "bio": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "mentor profile updated successfully"
-                    },
-                    "400": {
-                        "description": "bad request, missing required fields"
-                    }
-                },
-                "x-stoplight": {
-                    "id": "fnfnt9tb9mpzq"
                 }
             },
             "get": {
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Get mentor details",
-                "description": "Mengambil detail mentor berdasarkan mentor_id. Hanya admin yang dapat mengakses.",
+                "summary": "Get all e-commerce products",
+                "description": "Mengambil semua produk e-commerce.",
                 "security": [
                     {
                         "bearerAuth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "mentor_id",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "ID dari mentor yang ingin diambil detailnya."
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "Mentor details retrieved successfully"
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
                     }
-                },
-                "x-stoplight": {
-                    "id": "l2kbjjwcn3h73"
                 }
             }
         },
-        "/admin/mentors": {
+        "/admin/ec/product/{id}": {
             "get": {
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Get mentor details",
-                "description": "Mengambil detail mentor berdasarkan mentor_id. Hanya admin yang dapat mengakses.",
+                "summary": "Get a specific e-commerce product by ID",
+                "description": "Mengambil detail produk berdasarkan ID atau slug.",
                 "security": [
                     {
                         "bearerAuth": []
@@ -375,30 +294,117 @@
                 ],
                 "parameters": [
                     {
-                        "name": "max",
-                        "in": "query",
+                        "in": "path",
+                        "name": "id",
                         "required": true,
                         "schema": {
                             "type": "string"
                         },
-                        "description": "Max data yang diambil di data"
-                    },
-                    {
-                        "name": "pageof",
-                        "in": "query",
-                        "description": "Sekarang adalah page ke berapa ( dimulai dari 0 )",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "description": "Product ID or slug"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Mentor details retrieved successfully"
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/payment/transaction": {
+            "post": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Create a new payment transaction",
+                "description": "Membuat transaksi pembayaran baru.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "product_id": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
-                "x-stoplight": {
-                    "id": "j8ud3rjhhlquw"
+                "responses": {
+                    "200": {
+                        "description": "Transaction created successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Get all payment transactions",
+                "description": "Mengambil semua transaksi pembayaran untuk pengguna yang terotentikasi.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/payment/transaction/{id}": {
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Get a specific transaction by ID",
+                "description": "Mengambil detail transaksi berdasarkan ID.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Transaction ID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
                 }
             }
         },
@@ -424,123 +430,6 @@
                 },
                 "x-stoplight": {
                     "id": "b2eprvmnbpe0t"
-                }
-            }
-        },
-        "/mentor/class": {
-            "post": {
-                "tags": [
-                    "Mentor"
-                ],
-                "summary": "create new product ( class )",
-                "description": "Create New Class",
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "description": {
-                                        "type": "string"
-                                    },
-                                    "category_id": {
-                                        "type": "number",
-                                        "example": 1
-                                    },
-                                    "price": {
-                                        "type": "number",
-                                        "example": 100000
-                                    },
-                                    "duration": {
-                                        "type": "number",
-                                        "example": 36000
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "x-stoplight": {
-                    "id": "h6v2qx8483ag2"
-                }
-            },
-            "get": {
-                "summary": "Getting Data Class",
-                "tags": ["Mentor"],
-                "responses": {},
-                "operationId": "get-mentor-class",
-                "x-stoplight": {
-                    "id": "2sdl8ygggomw5"
-                },
-                "parameters": [
-                    {
-                        "schema": {
-                            "type": "string"
-                        },
-                        "in": "query",
-                        "name": "class_id",
-                        "description": "Using class id for search spesific class"
-                    }
-                ]
-            }
-        },
-        "/mentor/class/category": {
-            "post": {
-                "tags": [
-                    "Mentor"
-                ],
-                "summary": "create new category product",
-                "description": "Create New category",
-                "parameters": [],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "description": {
-                                        "type": "string"
-                                    },
-                                    "slug": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "x-stoplight": {
-                    "id": "q3pjh7zsd7n7n"
-                }
-            },
-            "get": {
-                "summary": "Getting All Class Category",
-                "tags": ["Mentor"],
-                "responses": {},
-                "operationId": "get-mentor-class-category-all",
-                "x-stoplight": {
-                    "id": "x564ssdbwk3uy"
                 }
             }
         },
@@ -621,60 +510,6 @@
                 },
                 "x-stoplight": {
                     "id": "xt61d5v4o7j6l"
-                }
-            }
-        },
-        "/mentor/class/content": {
-            "post": {
-                "summary": "Creating Content in class",
-                "tags": [
-                    "Mentor"
-                ],
-                "responses": {},
-                "operationId": "post-mentor-class-content",
-                "x-stoplight": {
-                    "id": "tahab6tqfdr2b"
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "class_id": {
-                                        "type": "string",
-                                        "x-stoplight": {
-                                            "id": "8r6td53j6uke0"
-                                        }
-                                    },
-                                    "content_type": {
-                                        "type": "string",
-                                        "x-stoplight": {
-                                            "id": "s74l19w9c75kp"
-                                        }
-                                    },
-                                    "content_title": {
-                                        "type": "string",
-                                        "x-stoplight": {
-                                            "id": "btjhljd74n8pe"
-                                        }
-                                    },
-                                    "content_dataa": {
-                                        "type": "string",
-                                        "x-stoplight": {
-                                            "id": "noi8nv9ziaqsh"
-                                        }
-                                    },
-                                    "instructor_id": {
-                                        "type": "string",
-                                        "x-stoplight": {
-                                            "id": "kmq5o4b40dyoz"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }
