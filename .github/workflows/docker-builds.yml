@@ -33,5 +33,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/serbailmu_api:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/serbailmu_api:${{ steps.meta.outputs.date }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/serbailmu_api:latest

@@ -1,5 +1,7 @@
 import express from "express"
-import "dotenv/config"
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config()
+}
 import { Router as AuthController } from "./auth/auth.controller";
 import { adminRouter, adminUserRouter } from "./admin/admin.controller";
 import { middleware_admin, middleware_allrole, middleware_user } from "./middleware";
@@ -15,6 +17,7 @@ import {logger} from "./utils/prisma";
 import {createProductRouter } from "./admin/product/product.controller";
 import { midtramsRouter } from "./default/midtrans/midtrans.controller";
 import { PaymentController } from "./user/payment/payment.controller";
+import { configDotenv } from "dotenv";
 
 const app = express();
 const app_port = process.env.APP_PORT || 3000
