@@ -1,21 +1,22 @@
-import express from "express"
+import dotenv from "dotenv"
 if (process.env.NODE_ENV !== "production") {
-    require('dotenv').config();
-    console.log("Load Dev Environtments");
+    dotenv.config();
+    console.log("Development environment variables loaded.");
 }
+import express from "express";
 import { Router as AuthController } from "./auth/auth.controller";
 import { adminRouter, adminUserRouter } from "./admin/admin.controller";
 import { middleware_admin, middleware_allrole, middleware_user } from "./middleware";
 import { Router as UserController } from "./user/user.controller";
 import { Router as DefaultRouter } from "./default/default.controller";
 import { Router as PublicController } from "./public/public.controller";
-import cors from "cors"
+import cors from "cors";
 
 import jsonSwager from "../docs/swagger.json";
 import { swagger_static } from "../docs/swagger.static";
 import { homepage } from "./utils/hompage.status";
-import {logger} from "./utils/prisma";
-import {createProductRouter } from "./admin/product/product.controller";
+import { logger } from "./utils/prisma"; // <- Sekarang ini aman diimpor
+import { createProductRouter } from "./admin/product/product.controller";
 import { midtramsRouter } from "./default/midtrans/midtrans.controller";
 import { PaymentController } from "./user/payment/payment.controller";
 
