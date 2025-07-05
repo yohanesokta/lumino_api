@@ -1,16 +1,5 @@
 import express, { response } from "express"  
-import { getUserdatabyID } from "./user.repository";
 import { sendJson } from "../utils/exepts";
 import { request } from "http";
 export const Router = express.Router();
 
-Router.get('/', async (request,response)=>{
-    try{
-        const user_id = request.user?.userdata.id!
-        const userdata = await getUserdatabyID(user_id);
-        response.json({message : "success" , data : userdata})
-    } catch (error) {
-        console.log(error)
-        response.status(500).json(sendJson({message:"Internal Server Error"}))
-    } 
-})

@@ -1,6 +1,8 @@
 import { randomUUID } from "crypto";
-import express from "express"
-import { createPayment, findOrder, findProductById } from "./payment.repository";
+import express, { response } from "express"
+import { createPayment, findOrder, findOrderByID, findProductById } from "./payment.repository";
+import { request } from "http";
+import { logger } from "../../utils/prisma";
 
 export const PaymentController = express.Router();
 
@@ -95,3 +97,35 @@ PaymentController.get('/transaction', async (request, response) => {
         });
     }
 });
+
+PaymentController.get('/transaction:id', async (request , response) => {
+    try {
+        const transaction_id = request.params.id
+        if (!transaction_id) {
+            response.status(401).json({
+                status: "Bad Request",
+                message: "No transactions found for this user"
+            });
+            return;
+        }
+        const transaction = await findOrderByID(request.user?.userdata.id!,transaction_id);
+        if (!transaction) {
+            response.status(404).json({
+                status: "Not Found",
+                message: "No transactions found for this user"
+            });
+            return;
+        }
+
+        response.json({
+            status: "Success",
+            data: transaction
+        });
+    } catch (error) {
+        logger.error("Error fetching transactions:", error);
+        response.status(500).json({
+            status: "Internal Server Error",
+            message: "Failed to fetch transactions"
+        });
+    }
+})

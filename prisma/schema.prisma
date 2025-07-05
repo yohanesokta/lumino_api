@@ -13,6 +13,7 @@ datasource db {
   url      = env("DB_URL")
 }
 
+
 enum Role {
   user
   admin
@@ -41,54 +42,6 @@ model Users {
   auth_token             String[] @default([])
   createAt               DateTime @default(now())
   updateAt               DateTime @updatedAt
-}
-
-model Category {
-  id          Int               @id @default(autoincrement())
-  name        String
-  slug        String            @unique
-  description String
-  rating      Int               @default(0)
-  createAt    DateTime          @default(now())
-  updateAt    DateTime          @updatedAt
-  products    ProductCategory[]
-}
-
-model Product {
-  id            Int               @id @default(autoincrement())
-  name          String            @unique
-  description   String
-  price         Int
-  instructor_id String
-  duration      Int
-  thumbnail_url String            @default("")
-  rating        Int               @default(1)
-  total_review  Int               @default(0)
-  active        Boolean           @default(false)
-  requerement   String            @default("")
-  createAt      DateTime          @default(now())
-  updateAt      DateTime          @updatedAt
-  categories    ProductCategory[]
-  content       Json[]            @default([])
-}
-
-model ProductCategory {
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId Int
-
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId Int
-
-  @@id([productId, categoryId])
-}
-
-model Sertificate {
-  id         String   @id @default(uuid()) @db.Uuid
-  user_id    String
-  product_id String
-  progres    String   @default("")
-  createAt   DateTime @default(now())
-  updateAt   DateTime @updatedAt
 }
 
 enum OrderStatus {

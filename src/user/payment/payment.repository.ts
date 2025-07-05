@@ -11,13 +11,13 @@ export const findProductById = async (productId: string) => {
     });
 }
 
-export const createPayment = async (userId: string, productId: string,total_price : number) => {
+export const createPayment = async (userId: string, productId: string, total_price: number) => {
     return await prisma.order.create({
         data: {
             user_id: userId,
             product_id: productId,
             total_price,
-            status : OrderStatus.pending,
+            status: OrderStatus.pending,
         },
     });
 }
@@ -25,6 +25,25 @@ export const createPayment = async (userId: string, productId: string,total_pric
 export const findOrder = async (userId: string) => {
     return await prisma.order.findMany({
         where: { user_id: userId },
+        include: {
+            product: {
+                include: {
+                    tools: true,
+                },
+            },
+        },
+    });
+}
+
+export const findOrderByID = async (userId: string, orderId: string) => {
+    return await prisma.order.findMany({
+        where: {
+            AND: [{
+                user_id: userId
+            }, {
+                id: orderId
+            }]
+        },
         include: {
             product: {
                 include: {
