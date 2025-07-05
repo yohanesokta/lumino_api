@@ -54,7 +54,6 @@ if (process.env.NODE_ENV === "development") {
     transports = [new winston.transports.Console()]
 }
 
-
 export const logger = winston.createLogger({
     level: "info",
     format: winston.format.combine(

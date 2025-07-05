@@ -53,8 +53,6 @@ midtramsRouter.post('/:base64token/socket',async (request, response) => {
         });
         return;
     }
-
-
     logger.info(`======== Socket request BY CLIENT [${slug}] ========`);
     logger.info(`Socket request for __ HEADER __: ${JSON.stringify(request.headers)}`);
     logger.info(`Socket request for __ BODY __: ${JSON.stringify(request.body)}`);
