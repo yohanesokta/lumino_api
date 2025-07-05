@@ -38,7 +38,7 @@ prisma.$on("warn", (element) => {
 });
 
 let transports;
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV != "vercel") {
     transports = [
         new winston.transports.Console({
             format: winston.format.combine(

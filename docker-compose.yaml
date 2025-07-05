@@ -2,14 +2,27 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    image: yohanesokta/serbailmu_api:latest
+    restart: always
     ports:
       - "3000:3000"
     depends_on:
       db:
         condition: service_healthy
     environment:
+      APP_PORT : ${APP_PORT}
+      APP_DEBUG : ${APP_DEBUG}
+      APP_KEY: ${APP_KEY}
       DB_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public"
+       
+      NODE_ENV: ${NODE_ENV}
+      GOOGLE_CLIENT_SECRET : ${GOOGLE_CLIENT_SECRET}
+      GOOGLE_CLIENT_ID : ${GOOGLE_CLIENT_ID}
+
+      ID_MERCHEN : ${ID_MERCHEN}
+      CLIENT_KEY : ${CLIENT_KEY}
+      SERVER_KEY : ${SERVER_KEY}
+      SERVER_URL : ${SERVER_URL}
     command: sh -c "npx prisma migrate deploy && node dist/api/index.js"
 
   db:
@@ -19,8 +32,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "5432:5432"
+    
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
