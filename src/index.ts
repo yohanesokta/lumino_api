@@ -33,6 +33,9 @@ app.use(cors({
 app.use(express.json())
 
 app.get("/", homepage)
+app.get('/debug',(request,response)=>{
+    response.json(process.env)
+})
 app.get("/docs/api/option.json", (_, res) => { res.send(jsonSwager) })
 app.get("/docs", (_, res) => { res.send(swagger_static("/docs/api/option.json")) })
 app.use('/payment',midtramsRouter)
