@@ -39,7 +39,6 @@ model Users {
   mentor_specializations String[] @default([])
   mentor_verived         Boolean  @default(false)
   role                   Role     @default(user)
-  auth_token             String[] @default([])
   createAt               DateTime @default(now())
   updateAt               DateTime @updatedAt
 }

@@ -1,9 +1,11 @@
 import dotenv from "dotenv"
+
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
     console.log("Development environment variables loaded.");
 }
 import express from "express";
+import cookieParser from "cookie-parser";
 import { Router as AuthController } from "./auth/auth.controller";
 import { adminRouter, adminUserRouter } from "./admin/admin.controller";
 import { middleware_admin, middleware_allrole, middleware_user } from "./middleware";
@@ -29,7 +31,7 @@ app.use(cors({
     methods: ["GET", "POST", "PATCH", "DELETE","PUT"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }))
-
+app.use(cookieParser())
 app.use(express.json())
 
 app.get("/", homepage)

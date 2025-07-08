@@ -1,7 +1,8 @@
-import express from "express";
+import express, { CookieOptions } from "express";
 import { containsSpecialChars, sendJson } from "../utils/exepts";
 import { googleCallback, googleRoute, registerUser, userLogin, userLogout } from "./auth.service";
 import { middleware_allrole } from "../middleware";
+import { logger } from "../utils/prisma";
 export const Router = express.Router();
 
 
@@ -16,7 +17,7 @@ Router.post("/register", async (request, response) => {
     } else {
         try {
             await registerUser({ username, user_email, user_password });
-            response.json(sendJson({message: "registration succsess"}))
+            response.json(sendJson({ message: "registration succsess" }))
         } catch (error) {
             if (error && typeof error == "object" && "code" in error) {
                 if (error.code = "P2002") {
@@ -29,6 +30,15 @@ Router.post("/register", async (request, response) => {
     }
 })
 
+
+export const cookieOption: CookieOptions = {
+    httpOnly: true,
+    secure: true,
+    maxAge: 24 * 60 * 60 * 1000
+}
+
+
+
 Router.post("/login", async (request, response) => {
     const user_email = request.body.user_email;
     const user_password = request.body.user_password;
@@ -38,11 +48,15 @@ Router.post("/login", async (request, response) => {
         try {
             const login = await userLogin({ user_email, user_password });
             if (typeof login == "object" && "role" in login) {
+
+                response.cookie('bearer', login.token,cookieOption);
+
                 response.json(sendJson({ data: login }))
             } else {
                 response.status(400).json(sendJson({ message: login }))
             }
         } catch (error) {
+            logger.error(error)
             response.status(500).json(sendJson({ message: "Internal server error" }))
         }
     }
@@ -55,7 +69,7 @@ Router.post("/logout", middleware_allrole, async (request, response) => {
         if (typeof request_token == "string") {
             await userLogout(userdata.user_email, userdata.auth_token, request_token)
         }
-        response.json(sendJson({message:"success"}))
+        response.json(sendJson({ message: "success" }))
     } catch (error) {
         console.log(error)
         response.status(500).json(sendJson({ message: "Internal server error" }))
@@ -64,7 +78,7 @@ Router.post("/logout", middleware_allrole, async (request, response) => {
 
 // google oauth2
 
-Router.get("/google",(request,response) => {
+Router.get("/google", (request, response) => {
     const redirect_url = request.query.redirect
     if (!redirect_url) {
         response.status(401).json(sendJson({ message: "redirect url cant blank!" })); return;
@@ -77,20 +91,21 @@ Router.get("/google",(request,response) => {
 
     }
 })
-Router.get("/google/callback", async (request,response)=>{
+Router.get("/google/callback", async (request, response) => {
     const code = request.query.code;
     const state = request.query.state
     if (!code || !state) {
         response.status(401).json(sendJson({ message: "code or state cant blank!" })); return;
     } else {
         try {
-            const google_data  = await googleCallback(String(code),String(state))
+            const google_data = await googleCallback(String(code), String(state))
             if (state == "disable") {
-                response.status(200).json(sendJson({message:"success", data  : google_data}))
+                response.status(200).json(sendJson({ message: "success", data: google_data }))
             } else {
-                response.redirect(state+"?token="+google_data!.token + "&role="+google_data!.role)
+                response.cookie('bearer',google_data!.token,cookieOption)
+                response.redirect(state + "?token=" + google_data!.token + "&role=" + google_data!.role)
             }
-            response.send(  )
+            response.send()
         } catch (error) {
             console.log(error)
             response.status(500).json(sendJson({ message: "Internal server error" }));
