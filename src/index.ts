@@ -23,16 +23,29 @@ import { midtramsRouter } from "./default/midtrans/midtrans.controller";
 import { PaymentController } from "./user/payment/payment.controller";
 
 const app = express();
+
 const app_port = process.env.APP_PORT || 3000
 jsonSwager.servers[0].url = process.env.APP_URL!
-
-app.use(cors({
-    origin: "*",
-    methods: ["GET", "POST", "PATCH", "DELETE","PUT"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-}))
 app.use(cookieParser())
 app.use(express.json())
+const allowedOrigins = [
+    process.env.CLIENT_URL!,
+    'http://localhost:3000',
+    'http://localhost:5173'
+]
+
+app.use(cors({
+    origin: function (origin , callback) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null,true)
+        } else{
+            callback(new Error('Not Allowed by cors'))
+        }
+    },
+    methods: ["GET", "POST", "PATCH", "DELETE","PUT"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
+}))
 
 app.get("/", homepage)
 app.get('/debug',(request,response)=>{

@@ -30,12 +30,17 @@ Router.post("/register", async (request, response) => {
     }
 })
 
+if (process.env.NODE_ENV == "production") {
+    
+}
 
 export const cookieOption: CookieOptions = {
     httpOnly: true,
-    secure: true,
+    secure: false,
+    sameSite: (process.env.NODE_ENV == 'production') ? 'none':'lax',
     maxAge: 24 * 60 * 60 * 1000
 }
+
 
 
 
