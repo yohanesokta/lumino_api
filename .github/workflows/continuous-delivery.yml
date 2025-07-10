@@ -4,6 +4,7 @@ on:
     workflows : ["Build and Push Docker Image Master"]
     types: 
       - completed
+    branches: [ "main" ]
 
 jobs:
   deploy:
@@ -42,5 +43,5 @@ jobs:
             echo 'Koneksi berhasil!'
             cd app/serbailmu_api
             docker-compose pull
-            docker-compose up -d
+            docker-compose up -d --build
           "

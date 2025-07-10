@@ -22,7 +22,8 @@
     "express": "^4.21.2",
     "googleapis": "^144.0.0",
     "jsonwebtoken": "^9.0.2",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "prisma": "^6.11.1"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.9",
@@ -35,7 +36,6 @@
     "@types/cors": "^2.8.17",
     "@types/http-errors": "^2.0.4",
     "nodemon": "^3.1.9",
-    "prisma": "^6.11.1",
     "typescript": "^5.7.3"
   }
 }
