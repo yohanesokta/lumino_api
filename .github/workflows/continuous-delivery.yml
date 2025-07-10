@@ -32,15 +32,15 @@ jobs:
           echo "${SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
           
           cat <<EOF> ~/.ssh/config
-          Host ssh.domain-anda.com
+          Host ssh.lumino.qzz.io
             ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h
           EOF
 
       - name: Run deployment commands
         run: |
-          ssh lumino@ssh.lumino.qzz.io "
+          ssh yohanes@ssh.lumino.qzz.io "
             echo 'Koneksi berhasil!'
-            cd Documents/serbailmu_api
+            cd app/serbailmu_api
             docker-compose pull
             docker-compose up -d
           "
