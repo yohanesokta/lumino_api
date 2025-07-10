@@ -2,8 +2,9 @@ import dotenv from "dotenv"
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
-    console.log("Development environment variables loaded.");
+    console.log("Development environment variables loaded-2");
 }
+
 import express from "express";
 import cookieParser from "cookie-parser";
 import { Router as AuthController } from "./auth/auth.controller";
@@ -17,10 +18,11 @@ import cors from "cors";
 import jsonSwager from "../docs/swagger.json";
 import { swagger_static } from "../docs/swagger.static";
 import { homepage } from "./utils/hompage.status";
-import { logger } from "./utils/prisma"; // <- Sekarang ini aman diimpor
+import { logger } from "./utils/prisma";
 import { createProductRouter } from "./admin/product/product.controller";
 import { midtramsRouter } from "./default/midtrans/midtrans.controller";
 import { PaymentController } from "./user/payment/payment.controller";
+import path from "path";
 
 const app = express();
 
@@ -56,6 +58,9 @@ app.get("/docs", (_, res) => { res.send(swagger_static("/docs/api/option.json"))
 app.use('/payment',midtramsRouter)
 app.use("/auth", AuthController)
 app.use('/public',PublicController)
+
+app.use("/images", express.static(path.join(__dirname,'..','..', 'uploads')))
+
 app.use("/user", middleware_allrole, UserController)
 app.use("/admin", middleware_admin, adminRouter)
 app.use("/admin/user",middleware_admin,adminUserRouter)
