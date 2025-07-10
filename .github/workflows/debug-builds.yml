@@ -1,8 +1,8 @@
-name: Build and Push Docker Image Master
+name: Build and Push Docker Image Debug
 
 on:
   push:
-    branches: [ "main" ]  
+    branches: [ "debug" ]  
   workflow_dispatch:
 
 jobs:
@@ -19,10 +19,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Generate image tags
-        id: meta
-        run: echo "date=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       
@@ -33,5 +29,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/serbailmu_api:${{ steps.meta.outputs.date }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/serbailmu_api:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/serbailmu_api:debug

@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs"
-import { getUserDataByEmail, updateUserToken, userCreate, userCreatebyGoogle } from "./auth.repository";
+import { getUserDataByEmail, userCreate, userCreatebyGoogle } from "./auth.repository";
 import jwt from "jsonwebtoken"
 import { google } from "googleapis";
+import { response } from "express";
 
 export interface registerRequest {
     username: string;
@@ -37,8 +38,6 @@ export const userLogin = async (data: { user_email: string; user_password: strin
                 token_create: Date.now()
             }
             const token = jwt.sign(payload, APP_KEY);
-            userdata.auth_token.push(token);
-            await updateUserToken(userdata.user_email, userdata.auth_token);
             return {
                 token: token,
                 role: userdata.role
@@ -48,10 +47,8 @@ export const userLogin = async (data: { user_email: string; user_password: strin
 }
 
 export const userLogout = async (user_email: string, user_token: [], request_token: string) => {
-    const new_user_token = user_token.filter((items) => { return items != request_token })
-    await updateUserToken(user_email, new_user_token)
+    response.clearCookie('bearer');
 }
-
 
 // google routes
 
@@ -100,10 +97,7 @@ export const googleCallback = async (code: string, state: string) => {
             updateAt: user_data!.updateAt,
             token_create: Date.now()
         }
-
         const token = jwt.sign(payload, APP_KEY);
-        user_data!.auth_token.push(token);
-        await updateUserToken(user_data!.user_email, user_data!.auth_token);
         return {
             token: token,
             role: user_data!.role

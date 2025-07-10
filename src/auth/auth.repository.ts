@@ -10,6 +10,3 @@ export const userCreatebyGoogle = async (data : registerRequest , user_picture :
 export const getUserDataByEmail = async (Email : string) => {
     return await prisma.users.findFirst({where : {user_email : Email}});
 }
-export const updateUserToken = async (user_email : string , user_token : {}) => {
-    await prisma.users.update({where : {user_email : user_email}, data : {auth_token : user_token}})
-}

@@ -15,15 +15,13 @@ declare global {
   }
 
 export async function middleware(role : string,request: Request) {
-    const header = request.headers
-    const authorization = header.authorization
+    const authorization = request.cookies.bearer!
+    console.log(authorization)
     if (!authorization) {
         return false
     } else {
         try {
-            const token = String(authorization).split(" ")[1];
-            let available = false
-            const tokenDecoded = jwt.verify(token, process.env.APP_KEY!)
+            const tokenDecoded = jwt.verify(authorization, process.env.APP_KEY!)
             if (typeof tokenDecoded == "object" && "user_email" in tokenDecoded && "role" in tokenDecoded) {
                 const userdata = await getUserDataByEmail(tokenDecoded.user_email)
                 if (role != "all") {
@@ -32,13 +30,8 @@ export async function middleware(role : string,request: Request) {
                         throw Error("role cancel")
                     }
                 }
-                request.user = { userdata , request_token : token}
-                userdata?.auth_token.forEach((e) => {
-                    if (e == token) { 
-                        available = true; 
-                    }
-                })
-                return available
+                request.user = { userdata , request_token : authorization}     
+                return true
             } else { throw Error("email not found") }
         } catch (error) {
             console.log(error)
