@@ -1,6 +1,6 @@
 import express, { CookieOptions } from "express";
 import { containsSpecialChars, sendJson } from "../utils/exepts";
-import { googleCallback, googleRoute, registerUser, userLogin, userLogout } from "./auth.service";
+import { googleCallback, googleRoute, registerUser, userLogin } from "./auth.service";
 import { middleware_allrole } from "../middleware";
 import { logger } from "../utils/prisma";
 export const Router = express.Router();
@@ -70,10 +70,7 @@ Router.post("/login", async (request, response) => {
 Router.post("/logout", middleware_allrole, async (request, response) => {
     try {
         const userdata = request.user?.userdata
-        const request_token = request.user?.request_token
-        if (typeof request_token == "string") {
-            await userLogout(userdata.user_email, userdata.auth_token, request_token)
-        }
+        response.clearCookie('bearer');
         response.json(sendJson({ message: "success" }))
     } catch (error) {
         console.log(error)

@@ -46,10 +46,6 @@ export const userLogin = async (data: { user_email: string; user_password: strin
     }
 }
 
-export const userLogout = async (user_email: string, user_token: [], request_token: string) => {
-    response.clearCookie('bearer');
-}
-
 // google routes
 
 const callback_url = process.env.APP_URL! + "/auth/google/callback"

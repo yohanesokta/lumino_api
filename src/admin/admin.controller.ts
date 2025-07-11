@@ -1,10 +1,9 @@
-import express, { response } from "express";
+import express from "express";
 import { getAllUsers, getUserById } from "./admin.repository";
-import { sendJson, validator } from "../utils/exepts";
+import { sendJson } from "../utils/exepts";
+import { PublicUploadImage } from "./admin.service";
 export const adminRouter = express.Router();
 export const adminUserRouter = express.Router();
-
-
 
 adminUserRouter.get("/",async (request, response) => {
     const id = request.query.id
@@ -28,3 +27,11 @@ adminUserRouter.get("/",async (request, response) => {
         response.status(500).json(sendJson({message : "Internal Server Error"}));
     }
 })
+
+adminRouter.post('/upload', (request, response) => {
+  if (!request.headers['content-type']?.includes('multipart/form-data')) { 
+    response.status(400).json({ message: 'Invalid content type' });
+    return;
+  }
+  PublicUploadImage(request, response);
+});

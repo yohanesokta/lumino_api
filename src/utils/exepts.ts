@@ -18,7 +18,6 @@ export const userSecretDeselect = {
 export function validator(object :any) {
     let includes : string[] = []
     Object.keys(object).map((element)=>{
-        // Checking if variable undifinde
         if (!object[element]){
             includes.push(`${element} is required`)
         }
